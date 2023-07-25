@@ -36,6 +36,7 @@ export default commandModule({
 		const queue = client.player?.createQueue(ctx.guildId, {
 			data: {
 				channel: ctx.channel,
+        vc: channel.id,
 			},
 		});
 		await queue?.join(channel as VoiceChannel);

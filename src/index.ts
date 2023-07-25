@@ -1,4 +1,4 @@
-import { EmbedBuilder, GatewayIntentBits, TextBasedChannel } from 'discord.js';
+import { EmbedBuilder, GatewayIntentBits, TextBasedChannel, VoiceChannel } from 'discord.js';
 import { Sern } from '@sern/handler';
 import 'dotenv/config';
 import DonutClient from './client';
@@ -10,6 +10,7 @@ const client = new DonutClient({
 
 client.player = new Player(client, {
 	leaveOnEmpty: false,
+  leaveOnEnd: false,
 });
 
 client.player.on('songAdd', (queue, song) => {
@@ -24,6 +25,21 @@ client.player.on('songAdd', (queue, song) => {
 		);
 
 	channel.send({ embeds: [embed] });
+});
+
+client.player.on("queueEnd", async (queue) => {
+  const channel = await queue.guild.channels.fetch(queue.data.vc) as VoiceChannel;
+  console.log(channel.members.size);
+  if (channel.members.size == 1) {
+    queue.leave();
+    await client.connectToHomeChannel();
+  }
+  setTimeout(async () => {
+    if (queue.songs.length == 0) {
+      queue.leave();
+      await client.connectToHomeChannel();
+    }
+  }, 10000 /*2 mins*/);
 });
 
 Sern.init({

@@ -22,7 +22,6 @@ export default commandModule({
 		let pages = [];
 		let line = 0;
 		let tmp = '';
-		console.log(guildQueue?.songs);
 		for (let song of guildQueue?.songs as Song[]) {
 			tmp += `${song.name} [${song.duration}] requested by ${song.requestedBy?.username}\n`;
 			line += 1;
