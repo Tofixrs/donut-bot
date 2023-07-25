@@ -1,5 +1,5 @@
 import { commandModule, CommandType } from '@sern/handler';
-import { RepeatMode } from 'discord-music-player';
+import { RepeatMode } from '@jadestudios/discord-music-player';
 import { ApplicationCommandOptionType } from 'discord.js';
 import type DonutClient from '../client';
 import { publish } from '../plugins/publish';

@@ -10,16 +10,17 @@ import {
 	Message,
 	MessageActionRowComponent,
 	RestOrArray,
-	SelectMenuBuilder,
 	SelectMenuComponentOptionData,
-	SelectMenuOptionBuilder,
+	StringSelectMenuOptionBuilder,
+	StringSelectMenuBuilder,
 	User,
+    StringSelectMenuComponent,
 } from 'discord.js';
 
 export class Paginator {
 	private currentCount: number = 0;
 	private selectMenuOptions?: RestOrArray<
-		| SelectMenuOptionBuilder
+		| StringSelectMenuOptionBuilder
 		| APISelectMenuOption
 		| SelectMenuComponentOptionData
 	>;
@@ -57,7 +58,7 @@ export class Paginator {
 
 	public setSelectMenuOptions(
 		...options: RestOrArray<
-			| SelectMenuOptionBuilder
+			| StringSelectMenuOptionBuilder
 			| APISelectMenuOption
 			| SelectMenuComponentOptionData
 		>
@@ -106,7 +107,7 @@ export class Paginator {
 		message: Message,
 		embeds: EmbedBuilder[],
 		rows: (
-			| ActionRowBuilder<SelectMenuBuilder>
+			| ActionRowBuilder<StringSelectMenuBuilder>
 			| ActionRowBuilder<ButtonBuilder>
 		)[]
 	) {
@@ -121,7 +122,7 @@ export class Paginator {
 		interaction: CommandInteraction,
 		embeds: EmbedBuilder[],
 		rows: (
-			| ActionRowBuilder<SelectMenuBuilder>
+			| ActionRowBuilder<StringSelectMenuBuilder>
 			| ActionRowBuilder<ButtonBuilder>
 		)[]
 	) {
@@ -168,7 +169,7 @@ export class Paginator {
 					this.currentCount = this.pages - 1;
 					break;
 				default:
-					if (!i.isSelectMenu()) return;
+					if (!i.isStringSelectMenu()) return;
 					this.currentCount = parseInt(i.values[0]);
 			}
 
@@ -238,7 +239,7 @@ export class Paginator {
 
 	private buildSelect() {
 		if (this.options.includeSelectMenu === false) return;
-		const select = new SelectMenuBuilder()
+		const select = new StringSelectMenuBuilder()
 			.setCustomId('@paginator/select')
 			.setMaxValues(1)
 			.setMinValues(1)
@@ -254,7 +255,7 @@ export class Paginator {
 							default: i === this.currentCount,
 						})))
 			);
-		const row = new ActionRowBuilder<SelectMenuBuilder>().setComponents(select);
+		const row = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(select);
 		return row;
 	}
 
@@ -277,9 +278,7 @@ export class Paginator {
 	}
 
 	private updateSelect(components: ActionRow<MessageActionRowComponent>[]) {
-		const selectMenuOption = (
-			components[1].components[0].data as APISelectMenuComponent
-		).options;
+    const selectMenuOption = (components[0].components[1] as StringSelectMenuComponent).data.options; 
 		for (const option of selectMenuOption) {
 			if (option.value === `${this.currentCount}`) option.default = true;
 			else option.default = false;

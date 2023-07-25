@@ -1,4 +1,4 @@
-import type { Player } from 'discord-music-player';
+import type { Player } from '@jadestudios/discord-music-player';
 import { Client, ClientOptions } from 'discord.js';
 
 export default class DonutClient extends Client {

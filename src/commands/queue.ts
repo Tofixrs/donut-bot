@@ -1,5 +1,5 @@
 import { commandModule, CommandType } from '@sern/handler';
-import type { Song } from 'discord-music-player';
+import type { Song } from '@jadestudios/discord-music-player';
 import { EmbedBuilder } from 'discord.js';
 import type DonutClient from '../client';
 import { Paginator } from '../modules/pagination';

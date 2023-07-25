@@ -2,7 +2,7 @@ import { EmbedBuilder, GatewayIntentBits, TextBasedChannel } from 'discord.js';
 import { Sern } from '@sern/handler';
 import 'dotenv/config';
 import DonutClient from './client';
-import { Player } from 'discord-music-player';
+import { Player } from '@jadestudios/discord-music-player';
 
 const client = new DonutClient({
 	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
