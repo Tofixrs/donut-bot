@@ -1,4 +1,6 @@
 import { Service } from "@sern/handler";
+import { Track } from "discord-player-plus";
+import { EmbedBuilder } from "discord.js";
 
 export function fmtDuration(duration: number): string {
   const hours = Math.floor(duration / 3600);
@@ -6,13 +8,13 @@ export function fmtDuration(duration: number): string {
   const seconds = Math.floor(duration - (hours * 3600) - (minutes * 60));
 
   let durationString = "";
-
-  const logger = Service("@sern/logger");
-  logger.info({message: `${hours} ${minutes} ${seconds}`})
-
-  if (hours > 0) durationString += `${hours}`;
-  if (minutes > 0) durationString += `:${minutes}`;
-  if (seconds > 0) durationString += `:${seconds}`;
+  if (hours > 0) durationString += `${hours}h:`;
+  if (minutes > 0) durationString += `${minutes}m`;
+  if (seconds > 0) durationString += `:${seconds}s`;
 
   return durationString;
+}
+
+export function trackToEmbed(track: Track) {
+  return new EmbedBuilder().setTitle(track.title).setURL(track.url).setImage(track.thumbnailUrl!).setFooter({text: `Długość: ${fmtDuration(track.duration)}`})
 }

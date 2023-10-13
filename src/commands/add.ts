@@ -1,8 +1,8 @@
-import { CommandType, commandModule } from "@sern/handler";
+import { CommandType, Service, commandModule } from "@sern/handler";
 import { ApplicationCommandOptionType, Embed, EmbedBuilder } from "discord.js";
-import { playerManager } from "../player";
-import { PlayOptions, formatDuration } from "discord-player-plus";
+import { PlayOptions} from "discord-player-plus";
 import { publish } from "../plugins/publish";
+import { fmtDuration, trackToEmbed } from "../utils";
 
 export default commandModule({
   type: CommandType.Slash,
@@ -23,7 +23,10 @@ export default commandModule({
     if(!member.voice.channel) {
       return await ctx.reply("Nie jesteś w głosówce")
     }
+
+    const playerManager = Service("playerManager");
     const player = playerManager.get(ctx.interaction.guildId!);
+
     const query = args.getString("query", true);
     await ctx.interaction.deferReply();
     
@@ -48,7 +51,7 @@ export default commandModule({
     
     if (!searchResult.playlist) {
       const track = tracks[0];
-      const embed = new EmbedBuilder().setTitle(track.title).setURL(track.url).setImage(track.thumbnailUrl!).setFooter({text: `Długość: ${formatDuration(track.duration)}`})
+      const embed = trackToEmbed(track);
       ctx.interaction.followUp({embeds: [embed]});
     } else {
       

@@ -1,5 +1,6 @@
 import { Client, GatewayIntentBits } from 'discord.js';
 import { Sern, single, makeDependencies } from '@sern/handler';
+import {PlayerManager} from "discord-player-plus";
 require('dotenv').config()
 
 /**
@@ -22,16 +23,23 @@ const client = new Client({
 });
 
 
+const playerManager = new PlayerManager({
+  playerDefault: {
+    initialVolume: 100
+  }
+});
+
+
 
 async function init() {
 	await makeDependencies({
-		build: (root) => root.add({ '@sern/client': single(() => client) }),
+		build: (root) => root.add({ '@sern/client': single(() => client)}).add({'playerManager': single(() => playerManager)}),
 	});
 
 	//View docs for all options
 	Sern.init({
 		commands: 'dist/commands',
-		events: 'dist/events', //(optional)
+		// events: 'dist/events', //(optional)
 	});
 }
 

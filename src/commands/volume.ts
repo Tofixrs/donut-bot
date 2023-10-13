@@ -1,6 +1,5 @@
-import { CommandType, commandModule } from "@sern/handler";
+import { CommandType, Service, commandModule } from "@sern/handler";
 import { ApplicationCommandOptionType } from "discord.js";
-import { playerManager } from "../player";
 import { publish } from "../plugins/publish";
 
 export default commandModule({
@@ -18,11 +17,10 @@ export default commandModule({
   plugins: [publish()],
   type: CommandType.Slash,
   execute: async (ctx, [, args]) => {
+    const playerManager = Service("playerManager");
     const player = playerManager.find(ctx.guildId!);
 
-    if(!player) {
-      return await ctx.reply("Nie jestem połączony z kanałem");
-    }
+    if(!player) return ctx.reply("Nie jestem połączony z kanałem");
 
     const volume = args.getNumber("volume", true);
     const sucess = player.setVolume(volume);
