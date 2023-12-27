@@ -6,29 +6,27 @@ export default commandModule({
   options: [
     {
       name: "volume",
-      description: "eeee",
+      description: "volume to set",
       type: ApplicationCommandOptionType.Number,
       min_value: 0,
       max_value: 200,
-      required: true
-    }
+      required: true,
+    },
   ],
-  description: "e",
+  description: "chnage volume",
   plugins: [publish()],
   type: CommandType.Slash,
   execute: async (ctx, [, args]) => {
     const playerManager = Service("playerManager");
     const player = playerManager.find(ctx.guildId!);
 
-    if(!player) return ctx.reply("Nie jestem połączony z kanałem");
+    if (!player) return ctx.reply("Not connected to channel");
 
     const volume = args.getNumber("volume", true);
     const sucess = player.setVolume(volume);
 
-    if (!sucess) return ctx.reply("ustawianie głośności nie powiodło sie")
+    if (!sucess) return ctx.reply("Couldnt set the volume");
 
-    ctx.reply(`Głośność ustawiona na ${volume}`)
-
-    
-  }
-})
+    ctx.reply(`Changed volume to ${volume}`);
+  },
+});

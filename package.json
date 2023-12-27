@@ -15,9 +15,9 @@
 	],
 	"dependencies": {
 		"@devraelfreeze/discordjs-pagination": "^2.7.6",
-		"@sern/handler": "^3.0.3",
-		"discord-player-plus": "^2.0.1",
-		"discord.js": "^14.13.0",
+		"@sern/handler": "3.2.1",
+		"discord-player-plus": "^2.0.4",
+		"discord.js": "^14.14.1",
 		"dotenv": "^16.3.1",
 		"play-dl": "^1.9.6"
 	},

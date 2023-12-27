@@ -2,16 +2,15 @@ import { CommandType, Service, commandModule } from "@sern/handler";
 
 export default commandModule({
   type: CommandType.Slash,
-  description: "eeee",
+  description: "Clear the queue",
   execute: async (ctx) => {
     const playerManager = Service("playerManager");
     const player = playerManager.find(ctx.guildId!);
 
-    if(!player) return ctx.reply("Nie jestem połączony z kanałem");
+    if (!player) return ctx.reply("Not in voice channel");
 
     const clearedTracks = player.clear();
 
-    ctx.reply(`Wyczyszczono ${clearedTracks} piosenek`)
-
-  }
-})
+    ctx.reply(`Cleared ${clearedTracks} from queue`);
+  },
+});
