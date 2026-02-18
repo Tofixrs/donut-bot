@@ -4,7 +4,8 @@ import { Client, GatewayIntentBits } from 'discord.js';
 import { Sern, makeDependencies } from '@sern/handler';
 import { Publisher } from '@sern/publisher'
 import { Player } from 'discord-player';
-import { DefaultExtractors } from '@discord-player/extractor';
+import { YoutubeiExtractor } from 'discord-player-youtubei';
+import { YoutubeSabrExtractor } from 'discord-player-googlevideo';
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -15,7 +16,7 @@ const client = new Client({
 	],
 });
 const player = new Player(client);
-await player.extractors.loadMulti(DefaultExtractors);
+await player.extractors.register(YoutubeSabrExtractor, {});
 
 
 /**
