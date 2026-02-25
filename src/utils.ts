@@ -66,17 +66,10 @@ export async function connectToHomeChannel(channel: HomeChannel) {
 }
 
 export async function autoConnectToHomeChannel() {
-	if (process.env.NODE_ENV == 'development') {
-		await connectToHomeChannel({
-			channel: '1258866447581712434',
-			guild: '1233783766359605299',
-		});
-	} else {
-		await connectToHomeChannel({
-			channel: '1017809334299787314',
-			guild: '959931438298460190',
-		});
-	}
+	await connectToHomeChannel({
+		channel: process.env.HOME_CHANNEL!,
+		guild: process.env.HOME_GUILD!,
+	});
 }
 
 export function trackToEmbed(track: Track) {
