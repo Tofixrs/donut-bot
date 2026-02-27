@@ -79,7 +79,7 @@ export function trackToEmbed(track: Track) {
 			name: track.author,
 		})
 		.setURL(track.url)
-		.setFooter({ text: `Duration: ${track.duration}; Views: ${track.views}` });
+		.setFooter({ text: `Продолжительность: ${track.duration} | ${track.views} просмотров` });
 	if (track.thumbnail != "") {
 		embed.setImage(track.thumbnail);
 	}
@@ -93,47 +93,51 @@ export type Ctx = Context | ButtonInteraction;
 
 export async function last(reply: ReplyFunc, ctx: Ctx) {
 	const queue = useQueue(ctx.guild!);
-	if (!queue?.isPlaying()) return await reply("Nothin' playin' yo");
+	if (!queue?.isPlaying()) return await reply("Очередь пуста!");
 
 	if (!queue.history.previousTrack)
-		return await reply("Nothin' before this song yo");
+		return await reply("Предыдущие позиции отсутствуют");
 	await queue.history.back();
 
-	await reply("Playin' last song");
+	await reply("Проигрываю последний трек");
 }
 export async function skip(reply: ReplyFunc, ctx: Ctx) {
 	const queue = useQueue(ctx.guild!);
-	if (!queue?.isPlaying()) return await reply("Nothin' playin' yo");
+	if (!queue?.isPlaying()) return await reply("Очередь пуста!");
 	const success = queue.node.skip();
 
-	if (!success) return await reply('Failed to skip');
+	if (!success) return await reply('Ошибка при попытке пропуска');
 
-	await reply('This shit has been skipped');
+	await reply('Трек пропущен');
 }
 export async function togglePause(reply: ReplyFunc, ctx: Ctx) {
 	const queue = useQueue(ctx.guild!);
-	if (!queue?.isPlaying()) return await reply("Nothin' playin' yo");
+	if (!queue?.isPlaying()) return await reply("Очередь пуста!");
 
 	const sucess = queue?.node.setPaused(!queue.node.isPaused());
 
-	if (!sucess) return await reply('Failed to toggle pause');
+	if (!sucess) return await reply('Ошибка при переключении паузы');
 
-	await reply('Toggled pause');
+	if (queue.node.isPaused()) {
+		await reply('Пауза - ВКЛ.');
+	} else {
+		await reply('Пауза - ВЫКЛ.');
+	}
 }
 
 export function repeatModeToString(repeatMode: QueueRepeatMode) {
 	switch (repeatMode) {
 		case QueueRepeatMode.AUTOPLAY: {
-			return 'autoplay';
+			return 'Автовоспроизведение';
 		}
 		case QueueRepeatMode.OFF: {
-			return 'off';
+			return 'ВЫКЛ.';
 		}
 		case QueueRepeatMode.QUEUE: {
-			return 'queue repeat';
+			return 'Повтор всей очереди';
 		}
 		case QueueRepeatMode.TRACK: {
-			return 'song repeat';
+			return 'Повтор трека';
 		}
 	}
 }
@@ -144,9 +148,9 @@ export async function loop(
 	repeatMode?: QueueRepeatMode
 ) {
 	const sendStatus = (repeatMode: QueueRepeatMode) =>
-		reply(`Set loop mode to ${repeatModeToString(repeatMode)}`);
+		reply(`Выбран режим повтора: ${repeatModeToString(repeatMode)}`);
 	const queue = useQueue(ctx.guild!);
-	if (!queue?.isPlaying()) return await reply("Nothin' playin' yo");
+	if (!queue?.isPlaying()) return await reply("Очередь пуста!");
 
 	if (repeatMode) {
 		queue.setRepeatMode(repeatMode);

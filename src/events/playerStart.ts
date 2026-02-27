@@ -16,19 +16,19 @@ export default eventModule({
 		const channel = queue.metadata as SendableChannels;
 
 		const last = new ButtonBuilder()
-			.setLabel('⏪')
+			.setLabel('⋘')
 			.setCustomId('last-button')
 			.setStyle(ButtonStyle.Primary);
 		const togglepause = new ButtonBuilder()
-			.setLabel('️⏯️')
+			.setLabel('▶||')
 			.setCustomId('togglepause-button')
 			.setStyle(ButtonStyle.Primary);
 		const loop = new ButtonBuilder()
-			.setLabel('🔁')
+			.setLabel('↻')
 			.setCustomId('loop-button')
 			.setStyle(ButtonStyle.Primary);
 		const skip = new ButtonBuilder()
-			.setLabel('⏩')
+			.setLabel('⋙')
 			.setCustomId('skip-button')
 			.setStyle(ButtonStyle.Primary);
 		const row = new ActionRowBuilder().setComponents(
@@ -40,7 +40,7 @@ export default eventModule({
 
 		channel.send({
 			embeds: [trackToEmbed(track)],
-			content: "Playin'...",
+			content: "Играет:",
 			components: [row],
 		});
 	},

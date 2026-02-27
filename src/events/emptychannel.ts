@@ -12,7 +12,7 @@ export default eventModule({
 		await autoConnectToHomeChannel();
 
 		await channel.send(
-			"Disconnected from the voice channel, clearin' the queue! ❌"
+			"Отключение от голосового канала. Очистка очереди."
 		);
 	},
 });
