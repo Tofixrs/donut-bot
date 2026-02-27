@@ -7,12 +7,12 @@ export default commandModule({
 	description: 'Убрать трек из очереди',
 	options: [
 		{
-			name: 'Трек',
+			name: 'song',
 			description: 'Ссылка или название трека который будет удалён',
 			type: ApplicationCommandOptionType.String,
 		},
 		{
-			name: 'Позиция',
+			name: 'pos',
 			description: 'Позиция трека который будет удалён',
 			type: ApplicationCommandOptionType.Integer,
 			min_value: 2,
@@ -22,8 +22,8 @@ export default commandModule({
 		const queue = useQueue(ctx.guild!);
 		if (!queue?.isPlaying()) return await ctx.reply("Очередь пуста!");
 
-		const song = ctx.options.getString('Трек');
-		const pos = ctx.options.getInteger('Позиция');
+		const song = ctx.options.getString('song');
+		const pos = ctx.options.getInteger('pos');
 		let trackName = '';
 
 		if (!pos && !song) return await ctx.reply('Недостаточно аргументов!');
