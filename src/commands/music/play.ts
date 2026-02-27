@@ -9,13 +9,13 @@ export default commandModule({
 	//alias : [],
 	options: [
 		{
-			name: "Ссылка",
+			name: "query",
 			description: "Ссылка",
 			type: ApplicationCommandOptionType.String,
 			required: true
 		},
 		{
-			name: "Голосовой канал",
+			name: "channel",
 			description: "Голосовой канал",
 			type: ApplicationCommandOptionType.Channel,
 			channel_types: [ChannelType.GuildVoice]
@@ -24,7 +24,7 @@ export default commandModule({
 	execute: async (ctx) => {
 		const player = useMainPlayer();
 		const member = await ctx.guild?.members.fetch({ user: ctx.userId });
-		const argChannel = ctx.options.getChannel("Голосовой канал") as VoiceChannel;
+		const argChannel = ctx.options.getChannel("channel") as VoiceChannel;
 
 		const channel = !argChannel ? member?.voice.channel : argChannel;
 
@@ -32,7 +32,7 @@ export default commandModule({
 		if (!channel) return ctx.reply("Вы должны указать голосовой канал или находиться в нём!");
 		await ctx.interaction.deferReply();
 
-		const query = ctx.options.getString('Ссылка', true);
+		const query = ctx.options.getString('query', true);
 
 		const res = await player.search(query, {
 			requestedBy: member,

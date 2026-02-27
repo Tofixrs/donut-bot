@@ -8,7 +8,7 @@ export default commandModule({
 	description: 'Установить режим повтора',
 	options: [
 		{
-			name: 'Режим',
+			name: 'mode',
 			description: 'Выбор режима повтора',
 			type: ApplicationCommandOptionType.Number,
 			choices: [
@@ -20,7 +20,7 @@ export default commandModule({
 		},
 	],
 	async execute(ctx) {
-		const loopmode = ctx.options.getNumber('Режим') as QueueRepeatMode | undefined;
+		const loopmode = ctx.options.getNumber('mode') as QueueRepeatMode | undefined;
 
 		await ctx.interaction.deferReply();
 		loop((c) => ctx.interaction.followUp(c), ctx, loopmode);

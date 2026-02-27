@@ -1,5 +1,5 @@
 import { commandModule, CommandType } from '@sern/handler';
-import { autoConnectToHomeChannel } from '../utils.js';
+import { autoConnectToHomeChannel } from '../../utils.js';
 import { useQueue } from 'discord-player';
 
 export default commandModule({

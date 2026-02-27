@@ -7,14 +7,14 @@ export default commandModule({
 	description: 'Вставить трек в любое место в очереди',
 	options: [
 		{
-			name: 'Позиция',
+			name: 'position',
 			description: 'Позиция в очереди где будет вставлен трек',
 			type: ApplicationCommandOptionType.Integer,
 			min_value: 2,
 			required: true,
 		},
 		{
-			name: 'Ссылка',
+			name: 'query',
 			description: 'Ссылка',
 			type: ApplicationCommandOptionType.String,
 			required: true,
@@ -27,10 +27,10 @@ export default commandModule({
 		const player = useMainPlayer();
 		await ctx.interaction.deferReply();
 		try {
-			const { tracks } = await player.search(ctx.options.getString('Ссылка', true));
+			const { tracks } = await player.search(ctx.options.getString('query', true));
 			if (tracks.length < 0) return await ctx.interaction.followUp('Трек не найден!');
 
-			queue.insertTrack(tracks[0], ctx.options.getInteger('Позиция', true) - 2);
+			queue.insertTrack(tracks[0], ctx.options.getInteger('position', true) - 2);
 			await ctx.interaction.followUp({
 				content: `Трек **${tracks[0].title}** добавлен в очередь`,
 			});

@@ -7,7 +7,7 @@ export default commandModule({
 	description: 'Установить громкость трека',
 	options: [
 		{
-			name: 'Громкость',
+			name: 'volume',
 			description: 'Громкость в процентах',
 			type: ApplicationCommandOptionType.Number,
 			required: true,
@@ -15,7 +15,7 @@ export default commandModule({
 		},
 	],
 	async execute(ctx) {
-		const volume = ctx.options.getNumber('Громкость', true);
+		const volume = ctx.options.getNumber('volume', true);
 		const queue = useQueue(ctx.guild!);
 		if (!queue?.isPlaying()) return await ctx.reply("Очередь пуста!");
 
