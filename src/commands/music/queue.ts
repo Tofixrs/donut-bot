@@ -5,10 +5,10 @@ import { EmbedBuilder } from 'discord.js';
 
 export default commandModule({
 	type: CommandType.Slash,
-	description: 'Display songs in queue',
+	description: 'Показать очередь',
 	async execute(ctx) {
 		const queue = useQueue(ctx.guild!);
-		if (!queue?.isPlaying()) return await ctx.reply("Nothin' playin' yo");
+		if (!queue?.isPlaying()) return await ctx.reply("Очередь пуста!");
 
 		const tracks = [queue.currentTrack].concat(queue.tracks.toArray());
 		const tracksSplitForPages = tracks.reduce((r, e, i) => {
@@ -21,16 +21,15 @@ export default commandModule({
 			const desc = e
 				.map(
 					(t, i) =>
-						` ${i + 5 * index + 1}: [${t.title} by ${t.author}](${t.url}) | ${t.duration
-						} Views: ${t.views}`
+						`${i + 5 * index + 1} — [${t.duration} ${t.title}](${t.url}) | Автор: ${t.author}, ${t.views} просмотров`
 				)
 				.join('\n');
 
 			return new EmbedBuilder()
-				.setTitle('Queue')
+				.setTitle('Очередь')
 				.setDescription(desc)
 				.setFooter({
-					text: `Page: ${index + 1}'/${tracksSplitForPages.length}`,
+					text: `Страница ${index + 1} из ${tracksSplitForPages.length}`,
 				});
 		});
 		new Pagination()

@@ -4,38 +4,38 @@ import { ApplicationCommandOptionType, ChannelType } from 'discord.js';
 
 export default commandModule({
 	type: CommandType.Slash,
-	description: 'Insert song anywhere into queue',
+	description: 'Вставить трек в любое место в очереди',
 	options: [
 		{
-			name: 'pos',
-			description: 'Where to insert song',
+			name: 'Позиция',
+			description: 'Позиция в очереди где будет вставлен трек',
 			type: ApplicationCommandOptionType.Integer,
 			min_value: 2,
 			required: true,
 		},
 		{
-			name: 'query',
-			description: 'query',
+			name: 'Ссылка',
+			description: 'Ссылка',
 			type: ApplicationCommandOptionType.String,
 			required: true,
 		},
 	],
 	async execute(ctx) {
 		const queue = useQueue(ctx.guild!);
-		if (!queue?.isPlaying()) return await ctx.reply("Nothin' playin' yo");
+		if (!queue?.isPlaying()) return await ctx.reply("Очередь пуста!");
 
 		const player = useMainPlayer();
 		await ctx.interaction.deferReply();
 		try {
-			const { tracks } = await player.search(ctx.options.getString('query', true));
-			if (tracks.length < 0) return await ctx.interaction.followUp('Not found');
+			const { tracks } = await player.search(ctx.options.getString('Ссылка', true));
+			if (tracks.length < 0) return await ctx.interaction.followUp('Трек не найден!');
 
-			queue.insertTrack(tracks[0], ctx.options.getInteger('pos', true) - 2);
+			queue.insertTrack(tracks[0], ctx.options.getInteger('Позиция', true) - 2);
 			await ctx.interaction.followUp({
-				content: `Addin' **${tracks[0].title}** to queue`,
+				content: `Трек **${tracks[0].title}** добавлен в очередь`,
 			});
 		} catch (e) {
-			await ctx.interaction.followUp(`Somethin' failed yo ${e}`);
+			await ctx.interaction.followUp(`Капитан! Всё пошло по жопе! ${e}`);
 		}
 	},
 });

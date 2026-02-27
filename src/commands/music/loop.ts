@@ -5,22 +5,22 @@ import { loop } from '../../utils.js';
 
 export default commandModule({
 	type: CommandType.Slash,
-	description: 'Sets loop mode',
+	description: 'Установить режим повтора',
 	options: [
 		{
-			name: 'mode',
-			description: 'Loop mode to set',
+			name: 'Режим',
+			description: 'Выбор режима повтора',
 			type: ApplicationCommandOptionType.Number,
 			choices: [
-				{ name: 'OFF', value: QueueRepeatMode.OFF },
-				{ name: 'Queue', value: QueueRepeatMode.QUEUE },
-				{ name: 'Track', value: QueueRepeatMode.TRACK },
-				{ name: 'Autoplay', value: QueueRepeatMode.AUTOPLAY },
+				{ name: 'ВЫКЛ.', value: QueueRepeatMode.OFF },
+				{ name: 'Повтор всей очереди', value: QueueRepeatMode.QUEUE },
+				{ name: 'Повтор трека', value: QueueRepeatMode.TRACK },
+				{ name: 'Автовоспроизведение', value: QueueRepeatMode.AUTOPLAY },
 			],
 		},
 	],
 	async execute(ctx) {
-		const loopmode = ctx.options.getNumber('mode') as QueueRepeatMode | undefined;
+		const loopmode = ctx.options.getNumber('Режим') as QueueRepeatMode | undefined;
 
 		await ctx.interaction.deferReply();
 		loop((c) => ctx.interaction.followUp(c), ctx, loopmode);

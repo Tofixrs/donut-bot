@@ -3,7 +3,7 @@ import { last } from '../../utils.js';
 
 export default commandModule({
 	type: CommandType.Slash,
-	description: 'Plays last song',
+	description: 'Проиграть предыдущий трек',
 	async execute(ctx, args) {
 		await ctx.interaction.deferReply();
 		last((c) => ctx.interaction.followUp(c), ctx);

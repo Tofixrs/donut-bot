@@ -4,33 +4,33 @@ import { ApplicationCommandOptionType } from 'discord.js';
 
 export default commandModule({
 	type: CommandType.Slash,
-	description: 'Yeet a song for the queue',
+	description: 'Убрать трек из очереди',
 	options: [
 		{
-			name: 'song',
-			description: 'Url or title of the song you want to yeet',
+			name: 'Трек',
+			description: 'Ссылка или название трека который будет удалён',
 			type: ApplicationCommandOptionType.String,
 		},
 		{
-			name: 'pos',
-			description: 'pos of the song you want to yeet',
+			name: 'Позиция',
+			description: 'Позиция трека который будет удалён',
 			type: ApplicationCommandOptionType.Integer,
 			min_value: 2,
 		},
 	],
 	async execute(ctx) {
 		const queue = useQueue(ctx.guild!);
-		if (!queue?.isPlaying()) return await ctx.reply("Nothin' playin' yo");
+		if (!queue?.isPlaying()) return await ctx.reply("Очередь пуста!");
 
-		const song = ctx.options.getString('song');
-		const pos = ctx.options.getInteger('pos');
+		const song = ctx.options.getString('Трек');
+		const pos = ctx.options.getInteger('Позиция');
 		let trackName = '';
 
-		if (!pos && !song) return await ctx.reply('Gotta provide pos or song mate');
+		if (!pos && !song) return await ctx.reply('Недостаточно аргументов!');
 		if (pos) {
 			const index = pos - 2;
 			const name = queue.tracks.toArray()[index]?.title;
-			if (!name) return ctx.reply("Yo this shit ain't existin");
+			if (!name) return ctx.reply("Трека на дааной позиции не существует!");
 
 			trackName = name;
 			queue.removeTrack(index);
@@ -38,12 +38,12 @@ export default commandModule({
 			const toRemove = queue.tracks
 				.toArray()
 				.find((e) => e.title == song || e.url == song);
-			if (!toRemove) return ctx.reply("Yo this shit ain't existin");
+			if (!toRemove) return ctx.reply("Трека с таким инменем или ссылкой не существует!");
 
 			trackName = toRemove.title;
 			queue.removeTrack(toRemove);
 		}
 
-		ctx.reply(`Removed ${trackName}`);
+		ctx.reply(`Трек ${trackName} убран из очереди`);
 	},
 });

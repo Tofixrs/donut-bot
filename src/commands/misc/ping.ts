@@ -3,12 +3,12 @@ import { commandModule, CommandType } from '@sern/handler';
 export default commandModule({
 	type: CommandType.Both,
 	plugins: [],
-	description: 'A ping command',
+	description: 'Проверить пинг бота',
 	//alias : [],
 	execute: async (ctx, args) => {
-		let msg = await ctx.reply({ content: 'Pinging...' });
+		let msg = await ctx.reply({ content: 'Пингуем...' });
 		msg.edit(
-			`🏓 Pong: My ping: **${msg.createdTimestamp - ctx.createdTimestamp}**ms`
+			`🏓 Понг! Мой пинг: **${msg.createdTimestamp - ctx.createdTimestamp}** мсек.`
 		);
 	},
 });
